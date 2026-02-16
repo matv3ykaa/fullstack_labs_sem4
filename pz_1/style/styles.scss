@@ -1,9 +1,11 @@
+// Цвета и базовые настройки
 $primary-color: #3498db;
 $secondary-color: #2ecc71;
 $text-color: #333;
 $border-radius: 12px;
 $box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
+// Миксин для стилизации кнопки
 @mixin button-style($bg-color, $text-color) {
     padding: 12px 24px;
     background-color: $bg-color;
@@ -26,6 +28,7 @@ $box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 }
 
+// Миксин базовых стилей карточки
 @mixin card-base {
     background: white;
     border-radius: $border-radius;
@@ -33,12 +36,14 @@ $box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     
+    // Эффект подъёма при наведении
     &:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
     }
 }
 
+// Основной блок карточки товара
 .product-card {
     @include card-base;
     
@@ -46,6 +51,7 @@ $box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     margin: 50px auto;
     padding: 24px;
     
+    // Блок изображения
     &__image {
         width: 100%;
         height: 200px;
@@ -61,6 +67,7 @@ $box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
     }
     
+    // Название товара
     &__title {
         font-size: 22px;
         font-weight: 700;
@@ -69,6 +76,7 @@ $box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         line-height: 1.3;
     }
     
+    // Описание товара
     &__description {
         font-size: 15px;
         color: #666;
@@ -76,6 +84,7 @@ $box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         line-height: 1.5;
     }
     
+    // Цена товара
     &__price {
         font-size: 24px;
         font-weight: 700;
@@ -83,6 +92,7 @@ $box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         margin-bottom: 20px;
     }
     
+    // Кнопка В корзину
     &__button {
         @include button-style($secondary-color, white);
         width: 100%;
