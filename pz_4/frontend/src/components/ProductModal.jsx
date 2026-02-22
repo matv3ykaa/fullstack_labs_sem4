@@ -1,0 +1,155 @@
+import React, { useEffect, useState } from 'react';
+
+const CATEGORIES = ['Стратегия', 'Вечеринка', 'Кооператив', 'Семейная', 'Карточная', 'Детектив', 'Хоррор', 'Другое'];
+
+const emptyForm = { name: '', category: '', description: '', price: '', stock: '', rating: '' };
+
+export default function ProductModal({ open, mode, initialProduct, onClose, onSubmit }) {
+  const [form, setForm] = useState(emptyForm);
+
+  // При открытии модалки заполняем форму данными товара (если редактируем)
+  useEffect(() => {
+    if (!open) return;
+    if (initialProduct) {
+      setForm({
+        name: initialProduct.name ?? '',
+        category: initialProduct.category ?? '',
+        description: initialProduct.description ?? '',
+        price: initialProduct.price != null ? String(initialProduct.price) : '',
+        stock: initialProduct.stock != null ? String(initialProduct.stock) : '',
+        rating: initialProduct.rating != null ? String(initialProduct.rating) : '',
+      });
+    } else {
+      setForm(emptyForm);
+    }
+  }, [open, initialProduct]);
+
+  if (!open) return null;
+
+  const title = mode === 'edit' ? 'Редактировать товар' : 'Добавить товар';
+
+  const setField = (field) => (e) => setForm(prev => ({ ...prev, [field]: e.target.value }));
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const name = form.name.trim();
+    const category = form.category.trim();
+    const description = form.description.trim();
+    const price = Number(form.price);
+    const stock = Number(form.stock);
+    const rating = form.rating !== '' ? Number(form.rating) : null;
+
+    if (!name) { alert('Введите название'); return; }
+    if (!category) { alert('Выберите или введите категорию'); return; }
+    if (!description) { alert('Введите описание'); return; }
+    if (!Number.isFinite(price) || price < 0) { alert('Введите корректную цену'); return; }
+    if (!Number.isInteger(stock) || stock < 0) { alert('Введите корректное количество на складе'); return; }
+    if (rating !== null && (!Number.isFinite(rating) || rating < 0 || rating > 5)) {
+      alert('Рейтинг должен быть от 0 до 5');
+      return;
+    }
+
+    onSubmit({
+      id: initialProduct?.id,
+      name,
+      category,
+      description,
+      price,
+      stock,
+      rating,
+    });
+  };
+
+  return (
+    <div className="backdrop" onMouseDown={onClose}>
+      <div className="modal" onMouseDown={(e) => e.stopPropagation()} role="dialog" aria-modal="true">
+        <div className="modal__header">
+          <div className="modal__title">{title}</div>
+          <button className="iconBtn" onClick={onClose} aria-label="Закрыть">✕</button>
+        </div>
+
+        <form className="form" onSubmit={handleSubmit}>
+          <label className="label">
+            Название
+            <input
+              className="input"
+              value={form.name}
+              onChange={setField('name')}
+              placeholder="Например, Каркассон"
+              autoFocus
+            />
+          </label>
+
+          <label className="label">
+            Категория
+            {/* datalist даёт выпадающий список, но поле остаётся свободным */}
+            <input
+              className="input"
+              list="categories"
+              value={form.category}
+              onChange={setField('category')}
+              placeholder="Выберите или введите"
+            />
+            <datalist id="categories">
+              {CATEGORIES.map(c => <option key={c} value={c} />)}
+            </datalist>
+          </label>
+
+          <label className="label">
+            Описание
+            <textarea
+              className="input input--textarea"
+              value={form.description}
+              onChange={setField('description')}
+              placeholder="Краткое описание игры"
+              rows={3}
+            />
+          </label>
+
+          <div className="formRow">
+            <label className="label">
+              Цена (₽)
+              <input
+                className="input"
+                value={form.price}
+                onChange={setField('price')}
+                placeholder="1990"
+                inputMode="numeric"
+              />
+            </label>
+
+            <label className="label">
+              Остаток (шт.)
+              <input
+                className="input"
+                value={form.stock}
+                onChange={setField('stock')}
+                placeholder="10"
+                inputMode="numeric"
+              />
+            </label>
+
+            <label className="label">
+              Рейтинг (0–5)
+              <input
+                className="input"
+                value={form.rating}
+                onChange={setField('rating')}
+                placeholder="4.5"
+                inputMode="decimal"
+              />
+            </label>
+          </div>
+
+          <div className="modal__footer">
+            <button type="button" className="btn" onClick={onClose}>Отмена</button>
+            <button type="submit" className="btn btn--primary">
+              {mode === 'edit' ? 'Сохранить' : 'Создать'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
