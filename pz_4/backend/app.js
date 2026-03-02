@@ -5,7 +5,7 @@ const { nanoid } = require('nanoid');
 const app = express();
 const port = 3000;
 
-// Стартовые данные — 10 настольных игр
+// Стартовые данные (10 настольных игр)
 let products = [
   {
     id: nanoid(6),
@@ -130,7 +130,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Ищем товар по id, если нет — сразу отдаём 404
+// Ищем товар по id, если нет, то сразу отдаём 404
 function findProductOr404(id, res) {
   const product = products.find(p => p.id === id);
   if (!product) {
@@ -186,7 +186,7 @@ function validateProductFields(body, requireAll = true) {
   return errors;
 }
 
-// POST /api/products — создать товар
+// POST /api/products - Создать товар
 app.post('/api/products', (req, res) => {
   const errors = validateProductFields(req.body, true);
   if (errors.length > 0) {
@@ -209,19 +209,19 @@ app.post('/api/products', (req, res) => {
   res.status(201).json(newProduct);
 });
 
-// GET /api/products — список товаров
+// GET /api/products - Список товаров
 app.get('/api/products', (req, res) => {
   res.json(products);
 });
 
-// GET /api/products/:id — один товар
+// GET /api/products/:id - Один товар
 app.get('/api/products/:id', (req, res) => {
   const product = findProductOr404(req.params.id, res);
   if (!product) return;
   res.json(product);
 });
 
-// PATCH /api/products/:id — частичное обновление
+// PATCH /api/products/:id - Частичное обновление
 app.patch('/api/products/:id', (req, res) => {
   const product = findProductOr404(req.params.id, res);
   if (!product) return;
@@ -249,7 +249,7 @@ app.patch('/api/products/:id', (req, res) => {
   res.json(product);
 });
 
-// DELETE /api/products/:id — удалить товар
+// DELETE /api/products/:id - Удалить товар
 app.delete('/api/products/:id', (req, res) => {
   const exists = products.some(p => p.id === req.params.id);
   if (!exists) return res.status(404).json({ error: 'Product not found' });
@@ -263,7 +263,7 @@ app.use((req, res) => {
   res.status(404).json({ error: 'Not found' });
 });
 
-// Глобальный обработчик — чтобы сервер не падал от неожиданных ошибок
+// Глобальный обработчик ошибок
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
   res.status(500).json({ error: 'Internal server error' });
