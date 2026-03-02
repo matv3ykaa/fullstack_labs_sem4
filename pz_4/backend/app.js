@@ -15,6 +15,7 @@ let products = [
     price: 2990,
     stock: 15,
     rating: 4.8,
+    image: 'https://cf.geekdo-images.com/W3Bsga_uLP9kO91gZ7H8yw__imagepage/img/M_3Vg1j2HlNgkv7PL1xl1_-PkKA=/fit-in/900x600/filters:no_upscale():strip_icc()/pic2419375.jpg',
   },
   {
     id: nanoid(6),
@@ -24,6 +25,7 @@ let products = [
     price: 1890,
     stock: 22,
     rating: 4.6,
+    image: 'https://cf.geekdo-images.com/okM0dq_bEXnbyQTOvHfwRA__imagepage/img/H1oi5ek0kRjXapKvPkfpQmMqkqA=/fit-in/900x600/filters:no_upscale():strip_icc()/pic2337577.jpg',
   },
   {
     id: nanoid(6),
@@ -33,6 +35,7 @@ let products = [
     price: 2200,
     stock: 18,
     rating: 4.7,
+    image: 'https://cf.geekdo-images.com/lDe9QfMfOSXqXnmEFvNFAA__imagepage/img/8I2jXzAQSs6e3KBQPKZ3mj5x6tk=/fit-in/900x600/filters:no_upscale():strip_icc()/pic3738270.jpg',
   },
   {
     id: nanoid(6),
@@ -42,6 +45,7 @@ let products = [
     price: 2750,
     stock: 10,
     rating: 4.9,
+    image: 'https://cf.geekdo-images.com/S3ybV1LAp-8SnHIXLLjVqA__imagepage/img/2Kpf5TrgrMiALDHYdwKnHQgXS9w=/fit-in/900x600/filters:no_upscale():strip_icc()/pic1534148.jpg',
   },
   {
     id: nanoid(6),
@@ -51,6 +55,7 @@ let products = [
     price: 3400,
     stock: 8,
     rating: 4.8,
+    image: 'https://cf.geekdo-images.com/ZWJg0dCdrWHxVnc0eFXK8w__imagepage/img/hF1AZIaZlrfhWdRDIKsxVBQfwl0=/fit-in/900x600/filters:no_upscale():strip_icc()/pic38668.jpg',
   },
   {
     id: nanoid(6),
@@ -60,6 +65,7 @@ let products = [
     price: 1650,
     stock: 30,
     rating: 4.4,
+    image: 'https://images.2game.ru/images/products/1/6748/66739447/imaginarium.jpg',
   },
   {
     id: nanoid(6),
@@ -69,6 +75,7 @@ let products = [
     price: 3900,
     stock: 5,
     rating: 4.5,
+    image: 'https://cf.geekdo-images.com/oOmMnSfgcNWmqQjBFN_oXg__imagepage/img/0N4Ky1ZCi_MJFyinYMDfSyWqUys=/fit-in/900x600/filters:no_upscale():strip_icc()/pic828598.jpg',
   },
   {
     id: nanoid(6),
@@ -78,6 +85,7 @@ let products = [
     price: 2100,
     stock: 12,
     rating: 4.5,
+    image: 'https://cf.geekdo-images.com/j4ZDCJoHRSFfuE6_O7hTZA__imagepage/img/2T4flWC0P_4IWJpXIxAVKJSNGMc=/fit-in/900x600/filters:no_upscale():strip_icc()/pic394356.jpg',
   },
   {
     id: nanoid(6),
@@ -87,6 +95,7 @@ let products = [
     price: 3100,
     stock: 9,
     rating: 4.7,
+    image: 'https://cf.geekdo-images.com/RvFVTEpnbb4NM7k0IF8V7A__imagepage/img/F-Vf3ORTkHkEMWCy0GHQZ-mN3fk=/fit-in/900x600/filters:no_upscale():strip_icc()/pic860217.jpg',
   },
   {
     id: nanoid(6),
@@ -96,6 +105,7 @@ let products = [
     price: 1450,
     stock: 20,
     rating: 4.2,
+    image: 'https://cf.geekdo-images.com/PJosGEMEMfBunDMELh3bQA__imagepage/img/WzPnhBiHkQ3AJqBH0MaGMVsDTCE=/fit-in/900x600/filters:no_upscale():strip_icc()/pic1299166.jpg',
   },
 ];
 
@@ -167,6 +177,11 @@ function validateProductFields(body, requireAll = true) {
       errors.push('rating: число от 0 до 5');
     }
   }
+  if (body.image !== undefined && body.image !== null && body.image !== '') {
+    if (typeof body.image !== 'string') {
+      errors.push('image: строка с URL');
+    }
+  }
 
   return errors;
 }
@@ -178,7 +193,7 @@ app.post('/api/products', (req, res) => {
     return res.status(400).json({ error: 'Ошибки валидации', details: errors });
   }
 
-  const { name, category, description, price, stock, rating } = req.body;
+  const { name, category, description, price, stock, rating, image } = req.body;
   const newProduct = {
     id: nanoid(6),
     name: name.trim(),
@@ -187,6 +202,7 @@ app.post('/api/products', (req, res) => {
     price: Number(price),
     stock: Number(stock),
     rating: rating !== undefined ? Number(rating) : null,
+    image: image || null,
   };
 
   products.push(newProduct);
@@ -210,7 +226,7 @@ app.patch('/api/products/:id', (req, res) => {
   const product = findProductOr404(req.params.id, res);
   if (!product) return;
 
-  const updatableFields = ['name', 'category', 'description', 'price', 'stock', 'rating'];
+  const updatableFields = ['name', 'category', 'description', 'price', 'stock', 'rating', 'image'];
   const hasAnyField = updatableFields.some(f => req.body[f] !== undefined);
   if (!hasAnyField) {
     return res.status(400).json({ error: 'Нет полей для обновления' });
@@ -221,13 +237,14 @@ app.patch('/api/products/:id', (req, res) => {
     return res.status(400).json({ error: 'Ошибки валидации', details: errors });
   }
 
-  const { name, category, description, price, stock, rating } = req.body;
+  const { name, category, description, price, stock, rating, image } = req.body;
   if (name !== undefined) product.name = name.trim();
   if (category !== undefined) product.category = category.trim();
   if (description !== undefined) product.description = description.trim();
   if (price !== undefined) product.price = Number(price);
   if (stock !== undefined) product.stock = Number(stock);
   if (rating !== undefined) product.rating = Number(rating);
+  if (image !== undefined) product.image = image || null;
 
   res.json(product);
 });

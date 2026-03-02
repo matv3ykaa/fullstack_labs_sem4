@@ -2,12 +2,11 @@ import React, { useEffect, useState } from 'react';
 
 const CATEGORIES = ['Стратегия', 'Вечеринка', 'Кооператив', 'Семейная', 'Карточная', 'Детектив', 'Хоррор', 'Другое'];
 
-const emptyForm = { name: '', category: '', description: '', price: '', stock: '', rating: '' };
+const emptyForm = { name: '', category: '', description: '', price: '', stock: '', rating: '', image: '' };
 
 export default function ProductModal({ open, mode, initialProduct, onClose, onSubmit }) {
   const [form, setForm] = useState(emptyForm);
 
-  // При открытии модалки заполняем форму данными товара (если редактируем)
   useEffect(() => {
     if (!open) return;
     if (initialProduct) {
@@ -18,6 +17,7 @@ export default function ProductModal({ open, mode, initialProduct, onClose, onSu
         price: initialProduct.price != null ? String(initialProduct.price) : '',
         stock: initialProduct.stock != null ? String(initialProduct.stock) : '',
         rating: initialProduct.rating != null ? String(initialProduct.rating) : '',
+        image: initialProduct.image ?? '',
       });
     } else {
       setForm(emptyForm);
@@ -27,7 +27,6 @@ export default function ProductModal({ open, mode, initialProduct, onClose, onSu
   if (!open) return null;
 
   const title = mode === 'edit' ? 'Редактировать товар' : 'Добавить товар';
-
   const setField = (field) => (e) => setForm(prev => ({ ...prev, [field]: e.target.value }));
 
   const handleSubmit = (e) => {
@@ -39,6 +38,7 @@ export default function ProductModal({ open, mode, initialProduct, onClose, onSu
     const price = Number(form.price);
     const stock = Number(form.stock);
     const rating = form.rating !== '' ? Number(form.rating) : null;
+    const image = form.image.trim() || null;
 
     if (!name) { alert('Введите название'); return; }
     if (!category) { alert('Выберите или введите категорию'); return; }
@@ -50,15 +50,7 @@ export default function ProductModal({ open, mode, initialProduct, onClose, onSu
       return;
     }
 
-    onSubmit({
-      id: initialProduct?.id,
-      name,
-      category,
-      description,
-      price,
-      stock,
-      rating,
-    });
+    onSubmit({ id: initialProduct?.id, name, category, description, price, stock, rating, image });
   };
 
   return (
@@ -83,7 +75,6 @@ export default function ProductModal({ open, mode, initialProduct, onClose, onSu
 
           <label className="label">
             Категория
-            {/* datalist даёт выпадающий список, но поле остаётся свободным */}
             <input
               className="input"
               list="categories"
@@ -104,6 +95,16 @@ export default function ProductModal({ open, mode, initialProduct, onClose, onSu
               onChange={setField('description')}
               placeholder="Краткое описание игры"
               rows={3}
+            />
+          </label>
+
+          <label className="label">
+            URL картинки
+            <input
+              className="input"
+              value={form.image}
+              onChange={setField('image')}
+              placeholder="https://example.com/image.jpg"
             />
           </label>
 
