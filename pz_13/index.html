@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>flow</title>
+  
+  <!-- Web App Manifest -->
+  <link rel="manifest" href="/manifest.json">
+  
+  <!-- Для Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  
+  <!-- Цвет темы для браузера -->
+  <meta name="theme-color" content="#000000">
+  
+  <!-- Для iOS (иконка на домашний экран) -->
+  <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+  
+  <!-- Для iOS (статус бар) -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="/icons/favicon.ico" sizes="16x16" type="image/ico">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="workspace">
+    <header class="header">
+      <h1>flow</h1>
+    </header>
+
+    <main class="content">
+      <form id="task-form" class="input-group">
+        <input type="text" id="task-input" placeholder="Ввести задачу…" required>
+        <button type="submit">⏎</button>
+      </form>
+
+      <ul id="tasks-list" class="tasks-list"></ul>
+
+      <div class="empty-state" id="empty-state">
+        <p>Список пуст.<br>Добавьте хотя бы одну задачу.</p>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>only focus</p>
+    </footer>
+  </div>
+
+  <div class="modal" id="note-modal" style="display:none">
+    <div class="modal-content">
+      <textarea id="note-input" placeholder="Добавить заметку..."></textarea>
+      <div class="modal-actions">
+        <button id="save-note">Сохранить</button>
+        <button id="cancel-note">Отмена</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
