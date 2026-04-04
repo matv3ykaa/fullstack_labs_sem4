@@ -17,7 +17,7 @@ const ASSETS = [
   '/icons/icon-512x512.png'
 ];
 
-// Установка: кэшируем App Shell
+// Кэшируем App Shell
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -26,7 +26,7 @@ self.addEventListener('install', event => {
   );
 });
 
-// Активация: удаляем старые кэши
+// Удаляем старые кэши
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys => {
@@ -38,7 +38,7 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Fetch: разные стратегии для статики и динамического контента
+// Разные стратегии для статики и динамического контента
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
   if (url.origin !== location.origin) return;
@@ -67,7 +67,7 @@ self.addEventListener('fetch', event => {
   );
 });
 
-// Обработчик push-уведомлений (НОВЫЙ)
+// Обработчик push-уведомлений
 self.addEventListener('push', (event) => {
   let data = { title: 'Новое уведомление', body: '' };
   if (event.data) {

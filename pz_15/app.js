@@ -3,7 +3,7 @@ const contentDiv = document.getElementById('app-content');
 const homeBtn = document.getElementById('home-btn');
 const aboutBtn = document.getElementById('about-btn');
 
-// Модальное окно для заметок (в shell, доступно всегда)
+// Модальное окно для заметок
 const noteModal = document.getElementById('note-modal');
 const noteInput = document.getElementById('note-input');
 const saveNoteBtn = document.getElementById('save-note');
@@ -23,7 +23,6 @@ async function loadContent(page) {
     const html = await response.text();
     contentDiv.innerHTML = html;
     
-    // Если загружена главная — инициализируем задачи
     if (page === 'home') {
       initTasks();
     }
@@ -33,7 +32,7 @@ async function loadContent(page) {
   }
 }
 
-// Инициализация функционала задач (вызывается только на home)
+// Инициализация функционала задач
 function initTasks() {
   const form = document.getElementById('task-form');
   const input = document.getElementById('task-input');

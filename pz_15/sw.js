@@ -1,4 +1,4 @@
-// Кэш для App Shell (статика)
+// Кэш для App Shell
 const CACHE_NAME = 'flow-shell-v1';
 // Кэш для динамического контента
 const DYNAMIC_CACHE_NAME = 'flow-content-v1';
@@ -17,7 +17,7 @@ const ASSETS = [
   '/icons/icon-512x512.png'
 ];
 
-// Установка: кэшируем App Shell
+// Кэшируем App Shell
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -26,7 +26,7 @@ self.addEventListener('install', event => {
   );
 });
 
-// Активация: удаляем старые кэши
+// Удаляем старые кэши
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys => {
@@ -38,14 +38,14 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Fetch: разные стратегии для статики и динамического контента
+// Разные стратегии для статики и динамического контента
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
   
   // Пропускаем внешние запросы
   if (url.origin !== location.origin) return;
   
-  // Динамический контент (/content/*) — Network First
+  // Динамический контент (Network First)
   if (url.pathname.startsWith('/content/')) {
     event.respondWith(
       fetch(event.request)
@@ -66,7 +66,7 @@ self.addEventListener('fetch', event => {
     return;
   }
   
-  // Статика — Cache First (по умолчанию)
+  // Статика (Cache First)
   event.respondWith(
     caches.match(event.request)
       .then(response => response || fetch(event.request))
