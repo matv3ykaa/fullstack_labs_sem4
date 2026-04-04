@@ -1,0 +1,390 @@
+:root {
+  --bg: linear-gradient(135deg, #000000, #1a1a1a);
+  --text: #ffffff;
+  --text-secondary: #b0b0b0;
+  --border: #ffffff;
+  --border-gray: #555555;
+  --card-bg: rgba(20, 20, 20, 0.9);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  line-height: 1.6;
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+.workspace {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 3.2rem;
+  font-weight: 800;
+  letter-spacing: -1.2px;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  color: var(--text);
+  line-height: 1.1;
+  text-transform: lowercase;
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.3),
+               0 0 40px rgba(255, 255, 255, 0.2),
+               0 0 60px rgba(255, 255, 255, 0.1);
+}
+
+/* Стили для табов навигации */
+.tabs {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  margin-top: 1rem;
+  background: var(--card-bg);
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tab {
+  padding: 8px 20px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab.active {
+  background: var(--border);
+  color: #000;
+  font-weight: 600;
+}
+
+.tab:hover:not(.active) {
+  color: var(--text);
+}
+
+.content {
+  flex: 1;
+}
+
+.input-group {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 2.5rem;
+}
+
+#task-input {
+  flex: 1;
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 1.1rem;
+  background: var(--card-bg);
+  color: var(--text);
+}
+
+#task-input:focus {
+  outline: none;
+  border-color: var(--border);
+}
+
+#task-input::placeholder {
+  color: var(--text-secondary);
+}
+
+#task-form button {
+  background: var(--border);
+  color: #000;
+  border: none;
+  border-radius: 12px;
+  padding: 0 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.tasks-list {
+  list-style: none;
+  display: none;
+}
+
+.tasks-list.show {
+  display: block;
+}
+
+.task-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+}
+
+.task-item.completed {
+  border-color: var(--border-gray);
+  opacity: 0.8;
+}
+
+.task-item.completed .task-text {
+  text-decoration: line-through;
+  color: var(--text-secondary);
+}
+
+.task-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  flex-shrink: 0;
+  position: relative;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.task-item.completed .task-checkbox {
+  border-color: var(--border-gray);
+  background: var(--border-gray);
+}
+
+.task-item.completed .task-checkbox::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 8px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: translate(-50%, -50%) rotate(45deg);
+  pointer-events: none;
+}
+
+.task-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.task-text {
+  font-size: 1.05rem;
+  word-break: break-word;
+}
+
+.task-note {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 6px;
+  line-height: 1.5;
+  display: none;
+}
+
+.task-note.show {
+  display: block;
+}
+
+.task-menu {
+  color: var(--text-secondary);
+  font-size: 1.4rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 30px;
+  text-align: center;
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-top: 4rem;
+  padding: 0 2rem;
+}
+
+.footer {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-gray);
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  padding: 1.5rem;
+}
+
+#note-input {
+  width: 100%;
+  min-height: 100px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem;
+  color: var(--text);
+  font-size: 1rem;
+  font-family: inherit;
+  resize: vertical;
+  margin-bottom: 1rem;
+}
+
+#note-input::placeholder {
+  color: var(--text-secondary);
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.modal-actions button {
+  flex: 1;
+  padding: 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.modal-actions #save-note {
+  background: var(--border);
+  color: #000;
+}
+
+/* Уведомления (transition-подход) */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  min-width: 280px;
+  max-width: 340px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+  
+  /* Начальное состояние: скрыто и сдвинуто вправо */
+  opacity: 0;
+  transform: translateX(30px);
+  pointer-events: none;
+  
+  /* Плавный переход для обоих направлений */
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Состояние: видно */
+.toast.show {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+/* Состояние: исчезает */
+.toast.hide {
+  opacity: 0;
+  transform: translateX(30px);
+  pointer-events: none;
+}
+
+/* Логотип и текст (без изменений) */
+.toast-icon {
+  width: 24px; height: 24px; flex-shrink: 0; border-radius: 4px; object-fit: contain;
+}
+.toast-content { flex: 1; min-width: 0; }
+.toast-title { font-size: 0.95rem; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.toast-body { font-size: 0.9rem; color: var(--text-secondary); word-break: break-word; line-height: 1.4; }
+.toast-close {
+  background: none; border: none; color: var(--text-secondary); font-size: 1.3rem;
+  cursor: pointer; width: 26px; height: 26px; display: flex; align-items: center;
+  justify-content: center; border-radius: 6px; transition: all 0.2s; flex-shrink: 0; line-height: 1;
+}
+.toast-close:hover { color: var(--text); background: rgba(255, 255, 255, 0.1); }
+
+/* Кнопки управления push-уведомлениями */
+#enable-push,
+#disable-push {
+  padding: 10px 20px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-block;
+}
+
+#enable-push:hover {
+  background: var(--border);
+  color: #000;
+}
+
+#disable-push {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+}
+
+#disable-push:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+}
+
+/* Скрываем кнопки по умолчанию — показываем через JS */
+#enable-push,
+#disable-push {
+  display: none;
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>flow</title>
+  
+  <!-- Web App Manifest -->
+  <link rel="manifest" href="/manifest.json">
+  
+  <!-- Для Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  
+  <!-- Цвет темы для браузера -->
+  <meta name="theme-color" content="#000000">
+  
+  <!-- Для iOS -->
+  <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="/icons/favicon.ico" sizes="16x16" type="image/ico">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="workspace">
+    <!-- Шапка (часть App Shell) -->
+    <header class="header">
+      <h1>flow</h1>
+      <nav class="tabs">
+        <button id="home-btn" class="tab active">Главная</button>
+        <button id="about-btn" class="tab">О приложении</button>
+      </nav>
+    </header>
+
+    <!-- Контейнер для динамического контента -->
+    <main id="app-content" class="content"></main>
+
+    <!-- Футер (часть App Shell) -->
+    <footer class="footer">
+      <p>only focus</p>
+    </footer>
+  </div>
+
+  <!-- Модальное окно для заметки (в shell, доступно на всех страницах) -->
+  <div class="modal" id="note-modal" style="display:none">
+    <div class="modal-content">
+      <textarea id="note-input" placeholder="Добавить заметку..."></textarea>
+      <div class="modal-actions">
+        <button id="save-note">Сохранить</button>
+        <button id="cancel-note">Отмена</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
