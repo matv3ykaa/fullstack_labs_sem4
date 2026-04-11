@@ -1,0 +1,27 @@
+<div class="home-content">
+  <form id="task-form" class="input-group">
+    <input type="text" id="task-input" placeholder="Ввести задачу…" required>
+    <button type="submit">⏎</button>
+  </form>
+
+  <ul id="tasks-list" class="tasks-list"></ul>
+
+  <div class="empty-state" id="empty-state">
+    <p>Список пуст.<br>Добавьте хотя бы одну задачу.</p>
+  </div>
+
+  <h2 class="is-center">Добавить заметку</h2>
+  <form id="note-form" class="row is-center">
+    <input class="col-9" type="text" id="note-input-reminder"
+      placeholder="Введите текст заметки" required>
+    <button class="col-3 button primary" type="submit">Добавить</button>
+  </form>
+  <form id="reminder-form" class="row is-center" style="margin-top: 1rem;">
+    <input class="col-5" type="text" id="reminder-text"
+      placeholder="Текст напоминания" required>
+    <input class="col-4" type="datetime-local" id="reminder-time" required>
+    <button class="col-3 button success" type="submit">Добавить с напоминанием</button>
+  </form>
+  <h2 class="is-center" style="margin-top: 2rem;">Список заметок</h2>
+  <ul id="notes-list" style="list-style: none; padding-left: 0;"></ul>
+</div>
