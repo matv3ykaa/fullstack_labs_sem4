@@ -1,0 +1,34 @@
+services:
+  mongo:
+    image: mongo:latest
+    container_name: fullstack-labs-sem4-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping').ok", "--quiet"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 10s
+
+  api:
+    image: node:20-alpine
+    container_name: fullstack-labs-sem4-api
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "${PORT:-3000}:3000"
+    env_file:
+      - .env
+    command: sh -c "npm install && node server.js"
+    depends_on:
+      mongo:
+        condition: service_healthy        
+
+volumes:
+  mongo_data:
